@@ -19,24 +19,24 @@
           <FormItem prop="userNameOrEmailAddress">
             <div class="ivu-input-wrapper ivu-input-wrapper-large ivu-input-type">
               <i class="ivu-icon ivu-icon-ios-person-outline ivu-input-icon ivu-input-icon-normal" style="left:0"></i>
-              <input v-model="loginModel.userNameOrEmailAddress" autocomplete="off" spellcheck="false" type="text" :placeholder="L('UserNamePlaceholder')" class="ivu-input ivu-input-large" style="padding-left:32px;padding-right:0">
+              <input v-model="loginModel.userNameOrEmailAddress" autocomplete="off" spellcheck="false" type="text" :placeholder="'Kullanıcı Adı'" class="ivu-input ivu-input-large" style="padding-left:32px;padding-right:0">
             </div>
           </FormItem>
           <FormItem prop="password">
             <div class="ivu-input-wrapper ivu-input-wrapper-large ivu-input-type">
               <i class="ivu-icon ivu-icon-ios-locked-outline ivu-input-icon ivu-input-icon-normal" style="left:0"></i>
-              <input v-model="loginModel.password" autocomplete="off" spellcheck="false" type="password" :placeholder="L('PasswordPlaceholder')" class="ivu-input ivu-input-large" style="padding-left:32px;padding-right:0">
+              <input v-model="loginModel.password" autocomplete="off" spellcheck="false" type="password" :placeholder="'Şifre'" class="ivu-input ivu-input-large" style="padding-left:32px;padding-right:0">
             </div>
           </FormItem>
         </Form>
         <div>
-          <Checkbox v-model="loginModel.rememberMe" size="large">{{L('RememberMe')}}</Checkbox>
-          <a style="float:right;font-size: 14px;margin-top: 3px;">{{L('ForgetPassword')}}</a>
+          <!-- <Checkbox v-model="loginModel.rememberMe" size="large">{{L('RememberMe')}}</Checkbox>
+          <a style="float:right;font-size: 14px;margin-top: 3px;">{{L('ForgetPassword')}}</a> -->
         </div>
         <div style="margin-top:15px">
           <Button type="primary" @click="login" long size="large">{{L('LogIn')}}</Button>
         </div>
-        <language-switch></language-switch>
+        <!-- <language-switch></language-switch> -->
       </div>
     </div>
     <Footer :copyright="'Ali İhsan AKAY'"></Footer>
@@ -101,9 +101,9 @@ export default class Login extends AbpBase {
     background: #f0f2f5;
   }
   @media (min-width: 768px){.container{
-    background-image: url(https://gw.alipayobjects.com/zos/rmsportal/TVYTbAXWheQpRcWDaDMu.svg);
+    background-image: url(https://galeri3.arkitera.com/var/albums/arkiv-2/proje/ydk-studio/piri-medya/pirimedya_mekan_03.jpg.jpeg);
     background-repeat: no-repeat;
-    background-position: center 110px;
+    background-position: center 0px;
     background-size: 100%;
     font-size: 18px;
   }}
