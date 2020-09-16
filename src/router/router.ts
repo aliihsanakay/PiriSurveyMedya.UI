@@ -19,6 +19,7 @@ declare global {
 import login from '../views/login.vue'
 import home from '../views/home/home.vue'
 import main from '../views/main.vue'
+import question from '../views/question/question-list.vue'
 
 export const locking = {
     path: '/locking',
@@ -48,6 +49,7 @@ export const otherRouters: Router = {
         { path: 'home', meta: { title: 'HomePage' }, name: 'home', component: () => import('../views/home/home.vue') }
     ]
 }
+
 export const appRouters: Array<Router> = [{
     path: '/setting',
     name: 'setting',
@@ -61,6 +63,8 @@ export const appRouters: Array<Router> = [{
         { path: 'tenant', permission: 'Pages.Tenants', meta: { title: 'Tenants' }, name: 'tenant', component: () => import('../views/setting/tenant/tenant.vue') },
         { path: 'surveyHeaderList', permission: 'Pages.SurveyAdmin', meta: { title: 'Anket İşlemleri' }, name: 'surveyHeaderList', component: () => import('../views/survey/survey-header-list.vue') },
         { path: 'userSurveyList', meta: { title: 'Anketler' }, name: 'userSurveyList', component: () => import('../views/user-survey/user-survey-header.vue') },
+        { path: 'questionList', meta: { title: 'Anketler Soruları' }, name: 'questionList', component: () => import('../views/question/question-list.vue') },
+        { path: 'answerList', meta: { title: 'Anketler Sorularının Cevapları' }, name: 'answerList', component: () => import('../views/answers/answer-list.vue') },
         
     ]
 }]
@@ -69,5 +73,5 @@ export const routers = [
     locking,
     ...appRouters,
     otherRouters,
-    surveyDetail
+    surveyDetail,
 ];

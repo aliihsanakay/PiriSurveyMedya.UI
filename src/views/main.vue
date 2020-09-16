@@ -64,7 +64,7 @@
                     <router-view></router-view>
                 </keep-alive>                
             </div>
-            <copyfooter :copyright="L('CopyRight')"></copyfooter>
+            <copyfooter :copyright="'Ali İhsan AKAY'"></copyfooter>
         </div>
     </div>
 </template>

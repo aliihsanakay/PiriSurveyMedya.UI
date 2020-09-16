@@ -39,7 +39,7 @@
         <language-switch></language-switch>
       </div>
     </div>
-    <Footer :copyright="L('CopyRight')"></Footer>
+    <Footer :copyright="'Ali İhsan AKAY'"></Footer>
     <tenant-switch v-model="showChangeTenant"></tenant-switch>
   </div>
 </template>

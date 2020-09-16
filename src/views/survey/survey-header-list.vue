@@ -24,6 +24,7 @@
             <td>{{item.endDate | formatDate}}</td>
             <td>
               <!-- <button class="btn btn-primary btn-sm">Düzenle</button> Kodlanacak-->
+                 <router-link :to="{ path: '/setting/questionList?headerId='+item.id , }">Sorular</router-link>
               <button class="btn btn-danger btn-sm" @click="deleteSurveyHeader(item.id)">Sil</button>
             </td>
           </tr>
