@@ -1,14 +1,39 @@
 <template>
   <div>
     <Card dis-hover>
-      <Table
-        :loading="isLoading"
-        :columns="columns"
-        :no-data-text="L('NoDatas')"
-        border
-        :data="headerList"
-      ></Table>
+      <div class="row">
+        <button class="btn btn-primary" @click="create">Ekle</button>
+      </div>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Adı</th>
+            <th scope="col">Açıklama</th>
+            <th scope="col">Başlangıç Tarihi</th>
+            <th scope="col">Bitiş Tarihi</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="item in headerList" :key="item.id">
+            <th scope="row">{{item.id}}</th>
+            <td>{{item.name}}</td>
+            <td>{{item.content}}</td>
+            <td>{{item.startDate | formatDate}}</td>
+            <td>{{item.endDate | formatDate}}</td>
+            <td>
+              <!-- <button class="btn btn-primary btn-sm">Düzenle</button> Kodlanacak-->
+              <button class="btn btn-danger btn-sm" @click="deleteSurveyHeader(item.id)">Sil</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </Card>
+    <create-or-edit-survey-header-modal
+      v-model="createModalShow"
+      @save-success="getSurveyHeaderList"
+    ></create-or-edit-survey-header-modal>
   </div>
 </template>
 <script lang="ts">
@@ -20,21 +45,21 @@ import {
   GetSurveyHeaderDto,
   SurveyHeaderServiceProxy,
 } from "../../store/services/serviceProxy";
+import CreateOrEditSurveyHeaderModal from "./create-or-edit-survey-header-modal.vue";
 
+@Component({
+  components: { CreateOrEditSurveyHeaderModal },
+})
 export default class SurveyHeaderList extends AbpBase {
-  /**
-   *
-   */
-
-  private _surveyHeaderService: SurveyHeaderServiceProxy = new SurveyHeaderServiceProxy();
-  headerList = new Array<GetSurveyHeaderDto>();
+  headerList: GetSurveyHeaderDto[] = [];
   isLoading: boolean = false;
-  constructor() {
-    super();
-
-    this.getSurveyHeaderList();
+  createModalShow: boolean = false;
+  private _SurveyHeaderService: SurveyHeaderServiceProxy = new SurveyHeaderServiceProxy();
+  get _surveyHeaderService() {
+    if (this._SurveyHeaderService == undefined)
+      this._SurveyHeaderService = new SurveyHeaderServiceProxy();
+    return this._SurveyHeaderService;
   }
-  ready() {}
 
   public getSurveyHeaderList() {
     this._surveyHeaderService.getSurveyHeader().then((res) => {
@@ -42,37 +67,29 @@ export default class SurveyHeaderList extends AbpBase {
       console.log(this.headerList);
     });
   }
+
   create() {
-    console.log("create çalıştı");
+    this.createModalShow = true;
+  }
+  
+  deleteSurveyHeader(id: number) {
+    this._surveyHeaderService.deleteSurveyHeader(id).then((res) => {
+         this.$Message.success("İşlem Tamamlandı");
+      this.getSurveyHeaderList();
+    });
+  }
+  mounted() {
+    console.log("mounted çalıştı");
+    // this.getSurveyHeaderList();
   }
 
-  columns = [
-    {
-      title: "No",
-      key: "id",
-    },
-    {
-      title: "Adı",
-      key: "name",
-    },
-    {
-      title: "Açıklama",
-      key: "content",
-    },
-    {
-      title: "Baş Tarihi",
-      key: "startDate",
-      render: (h: any, params: any) => {
-        return h("span", new Date(params.row.startDate).toLocaleDateString());
-      },
-    },
-    {
-      title: "Bit Tarihi",
-      key: "endDate",
-      render: (h: any, params: any) => {
-        return h("span", new Date(params.row.endDate).toLocaleDateString());
-      },
-    },
-  ];
+  created() {
+    console.log("created çalıştı");
+    this.getSurveyHeaderList();
+  }
 }
 </script>
+
+<style>
+@import "../css/bosstrap.css";
+</style>

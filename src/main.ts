@@ -3,6 +3,7 @@ import axios from 'axios';
 import VueAxios from 'vue-axios';
 import App from './app.vue';
 import iView from 'iview';
+import moment from 'moment';
 import {router} from './router/index';
 import 'famfamfam-flags/dist/sprite/famfamfam-flags.css';
 import './theme.less';
@@ -12,6 +13,13 @@ import SignalRAspNetCoreHelper from './lib/SignalRAspNetCoreHelper';
 Vue.use(iView);
 Vue.use(VueAxios, axios);
 import store from './store/index';
+
+Vue.filter('formatDate', (value) => {
+    if (value && !!value) {
+        return moment(String(value)).format('DD/MM/YYYY hh:mm')
+    }
+});
+
 Vue.config.productionTip = false;
 import { appRouters,otherRouters} from './router/router';
 if(!abp.utils.getCookieValue('Abp.Localization.CultureName')){
