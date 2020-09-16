@@ -2866,7 +2866,7 @@ export class GetUserQuestionDtoListResultDto implements IGetUserQuestionDtoListR
     static fromJS(data: any): GetUserQuestionDtoListResultDto {
         data = typeof data === 'object' ? data : {};
         let result = new GetUserQuestionDtoListResultDto();
-        result.init(data);
+        result.init(data.result);
         return result;
     }
 
