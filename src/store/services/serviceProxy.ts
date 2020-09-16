@@ -3515,7 +3515,7 @@ export class GetSurveyResultDtoListResultDto implements IGetSurveyResultDtoListR
     static fromJS(data: any): GetSurveyResultDtoListResultDto {
         data = typeof data === 'object' ? data : {};
         let result = new GetSurveyResultDtoListResultDto();
-        result.init(data);
+        result.init(data.result);
         return result;
     }
 

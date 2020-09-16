@@ -59,7 +59,7 @@ export const appRouters: Array<Router> = [{
         { path: 'user', permission: 'Pages.Users', meta: { title: 'Users' }, name: 'user', component: () => import('../views/setting/user/user.vue') },
         { path: 'role', permission: 'Pages.Roles', meta: { title: 'Roles' }, name: 'role', component: () => import('../views/setting/role/role.vue') },
         { path: 'tenant', permission: 'Pages.Tenants', meta: { title: 'Tenants' }, name: 'tenant', component: () => import('../views/setting/tenant/tenant.vue') },
-        { path: 'surveyHeaderList', meta: { title: 'Anket İşlemleri' }, name: 'surveyHeaderList', component: () => import('../views/survey/survey-header-list.vue') },
+        { path: 'surveyHeaderList', permission: 'Pages.SurveyAdmin', meta: { title: 'Anket İşlemleri' }, name: 'surveyHeaderList', component: () => import('../views/survey/survey-header-list.vue') },
         { path: 'userSurveyList', meta: { title: 'Anketler' }, name: 'userSurveyList', component: () => import('../views/user-survey/user-survey-header.vue') },
         
     ]
