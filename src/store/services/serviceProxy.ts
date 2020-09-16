@@ -636,7 +636,7 @@ export class SurveyResultServiceProxy {
 
     constructor(baseUrl?: string, instance?: AxiosInstance) {
         this.instance = instance ? instance : axios.create();
-        this.baseUrl = baseUrl ? baseUrl : "";
+        this.baseUrl = baseUrl ? baseUrl : API_BASE_URL;
     }
 
     /**
