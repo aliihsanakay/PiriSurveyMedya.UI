@@ -25,6 +25,7 @@
             <td>
               <!-- <button class="btn btn-primary btn-sm">Düzenle</button> Kodlanacak-->
                  <router-link :to="{ path: '/setting/questionList?headerId='+item.id , }">Sorular</router-link>
+                 <router-link :to="{ path: '/setting/surveyResultList?headerId='+item.id , }">Cevaplar</router-link>
               <button class="btn btn-danger btn-sm" @click="deleteSurveyHeader(item.id)">Sil</button>
             </td>
           </tr>

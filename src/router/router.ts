@@ -65,6 +65,7 @@ export const appRouters: Array<Router> = [{
         { path: 'userSurveyList', meta: { title: 'Anketler' }, name: 'userSurveyList', component: () => import('../views/user-survey/user-survey-header.vue') },
         { path: 'questionList', meta: { title: 'Anketler Soruları' }, name: 'questionList', component: () => import('../views/question/question-list.vue') },
         { path: 'answerList', meta: { title: 'Anketler Sorularının Cevapları' }, name: 'answerList', component: () => import('../views/answers/answer-list.vue') },
+        { path: 'surveyResultList', meta: { title: 'Anketler Cevapları' }, name: 'surveyResultList', component: () => import('../views/survey/survey-result-list.vue') }
         
     ]
 }]
