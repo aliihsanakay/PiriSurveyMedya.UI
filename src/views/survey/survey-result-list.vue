@@ -32,7 +32,7 @@
                     <template v-for="(detail, detailIndex) in item.answers">
                       <tr :key="detailIndex">
                         <td>{{detail.answerId}}</td>
-                        <td>{{detail.answer}}</td>
+                        <td>{{detail.answer}} (%{{detail.percent}})</td>
                         <td class="wpx-100">
                           <button
                             @click="toggleSecondDetail(detail.answerId)"

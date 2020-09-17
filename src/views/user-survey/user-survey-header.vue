@@ -20,10 +20,11 @@
             <span>Bitiş Tarihi:{{item.endDate | formatDate}}</span>
           </li>
         </ul>
-        <router-link :to="{ path: '/surveyDetail', query: { headerId: item.id }}">Başla</router-link>
+        <router-link class="btn btn-primary" :to="{ path: '/surveyDetail', query: { headerId: item.id }}">Başla</router-link>
 
         <!-- <button class="btn btn-success btn-block">Başla</button> -->
       </card>
+      <h2 v-if="headerList.length<=0">Cevaplayabileceğiniz hiç anket kalmadı :(</h2>
         </div>
      
     </Card>

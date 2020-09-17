@@ -54,7 +54,7 @@ export const appRouters: Array<Router> = [{
     path: '/setting',
     name: 'setting',
     permission: '',
-    meta: { title: 'ManageMenu' },
+    meta: { title: 'İşlemler' },
     icon: '&#xe68a;',
     component: main,
     children: [

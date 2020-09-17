@@ -1,6 +1,9 @@
 <template>
   <div>
     <Card dis-hover>
+      <div class="row">
+        <button class="btn btn-primary" @click="create">Ekle</button>
+      </div>
       <table class="table">
         <thead>
           <tr>
@@ -17,7 +20,7 @@
             <td>{{item.questionTypeId==1?'Tekli Seçim':item.questionTypeId==2?'Serbest Giriş (Açık uçlu)':item.questionTypeId==3?'Çoklu Seçim':''}}</td>
             <td>{{item.question}}</td>
             <td>
-              <router-link
+              <router-link class="btn btn-sm btn-primary mr-2"
                 v-if="item.questionTypeId!=2"
                 :to="{ path: '/setting/answerList?questionId='+item.id  }"
               >Cevap Şıkları</router-link>
@@ -28,6 +31,11 @@
         </tbody>
       </table>
     </Card>
+    <create-or-edit-question-modal
+      :headerId="headerId"
+      v-model="createModalShow"
+      @save-success="getSurveyQuestionList"
+    ></create-or-edit-question-modal>
   </div>
 </template>
 <script lang="ts">
@@ -41,14 +49,17 @@ import {
   SurveyHeaderServiceProxy,
   SurveyQuestionServiceProxy,
 } from "../../store/services/serviceProxy";
+import CreateOrEditQuestionModal from "./create-or-edit-question-modal.vue";
 
 @Component({
-  components: {},
+  components: { CreateOrEditQuestionModal },
 })
 export default class QuestionList extends AbpBase {
   questionList: GetQuestionDto[] = [];
   isLoading: boolean = false;
   headerId: number;
+  createModalShow: boolean = false;
+
   private _SurveyQuestionService: SurveyQuestionServiceProxy = new SurveyQuestionServiceProxy();
   get _surveyQuestionService() {
     if (this._SurveyQuestionService == undefined)
@@ -57,20 +68,23 @@ export default class QuestionList extends AbpBase {
   }
 
   public getSurveyQuestionList() {
-    debugger;
+   
     var item = this.$route.query["headerId"];
     this.headerId = parseInt(item[0]);
     this._surveyQuestionService.getListQuestion(this.headerId).then((res) => {
       this.questionList = res.items;
     });
   }
-deleteSurveyQesution(id)
-{
-    this._surveyQuestionService.deleteSurveyQuestion(id).then((res)=>{
-        this.$Message.info("Kayıt Başarı ile Silindi");
-        this.getSurveyQuestionList();
-    })
-}
+
+  deleteSurveyQesution(id) {
+    this._surveyQuestionService.deleteSurveyQuestion(id).then((res) => {
+      this.$Message.info("Kayıt Başarı ile Silindi");
+      this.getSurveyQuestionList();
+    });
+  }
+  create() {
+    this.createModalShow = true;
+  }
   mounted() {}
 
   created() {

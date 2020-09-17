@@ -12,6 +12,7 @@
             <th scope="col">Açıklama</th>
             <th scope="col">Başlangıç Tarihi</th>
             <th scope="col">Bitiş Tarihi</th>
+            <th scope="col">Durum</th>
             <th scope="col"></th>
           </tr>
         </thead>
@@ -22,11 +23,22 @@
             <td>{{item.content}}</td>
             <td>{{item.startDate | formatDate}}</td>
             <td>{{item.endDate | formatDate}}</td>
+            <td>{{item.isProduction}}</td>
             <td>
               <!-- <button class="btn btn-primary btn-sm">Düzenle</button> Kodlanacak-->
-                 <router-link :to="{ path: '/setting/questionList?headerId='+item.id , }">Sorular</router-link>
-                 <router-link :to="{ path: '/setting/surveyResultList?headerId='+item.id , }">Cevaplar</router-link>
-              <button class="btn btn-danger btn-sm" @click="deleteSurveyHeader(item.id)">Sil</button>
+              <router-link
+                class="btn btn-primary btn-sm mr-2"
+                :to="{ path: '/setting/questionList?headerId='+item.id , }"
+              >Sorular</router-link>
+              <router-link
+                class="btn btn-success btn-sm mr-2"
+                :to="{ path: '/setting/surveyResultList?headerId='+item.id , }"
+              >Cevaplar</router-link>
+              <button class="btn btn-danger btn-sm mr-2" @click="deleteSurveyHeader(item.id)">Sil</button>
+              <button
+                class="btn btn-warning btn-sm"
+                @click="changeIsProduction(item.id,!item.isProduction)"
+              >{{item.isProduction?'Yayından Kaldır':'Yayınla'}}</button>
             </td>
           </tr>
         </tbody>
@@ -73,10 +85,16 @@ export default class SurveyHeaderList extends AbpBase {
   create() {
     this.createModalShow = true;
   }
-  
+
   deleteSurveyHeader(id: number) {
     this._surveyHeaderService.deleteSurveyHeader(id).then((res) => {
-         this.$Message.success("İşlem Tamamlandı");
+      this.$Message.success("İşlem Tamamlandı");
+      this.getSurveyHeaderList();
+    });
+  }
+  changeIsProduction(id, isProduction) {
+    this._surveyHeaderService.changeProduction(id, isProduction).then((res) => {
+      this.$Message.info("İşleminiz Tamamlandı");
       this.getSurveyHeaderList();
     });
   }

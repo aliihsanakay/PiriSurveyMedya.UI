@@ -16,7 +16,8 @@
                     <span >{{ itemTitle(item) }}</span>
                 </template>
                 <template v-for="child in item.children">
-                    <MenuItem :name="child.name" :key="child.name"> 
+
+                    <MenuItem :name="child.name" :key="child.name" v-if="child.name!='surveyResultList' && child.name!='answerList' && child.name!='questionList'"> 
                         <i class="iconfont" v-html="child.icon"></i>                       
                         <span>{{ L(child.meta.title) }}</span>
                     </MenuItem>

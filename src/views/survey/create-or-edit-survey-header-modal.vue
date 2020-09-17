@@ -59,15 +59,14 @@ export default class CreateOrEditSurveyHeaderModal extends AbpBase {
   save() {
     (this.$refs.surveyHeaderForm as any).validate(async (valid: boolean) => {
       if (valid) {
+        
         this._surveyHeaderService
           .createOrEditSurveyHeader(this.surveyHeader)
           .then((res) => {
-             
+            (this.$refs.surveyHeaderForm as any).resetFields();
+            this.$emit("save-success");
+            this.$emit("input", false);
           });
-
-        (this.$refs.surveyHeaderForm as any).resetFields();
-        this.$emit("save-success");
-        this.$emit("input", false);
       }
     });
   }

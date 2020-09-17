@@ -307,6 +307,62 @@ export class SurveyHeaderServiceProxy {
         this.instance = instance ? instance : axios.create();
         this.baseUrl = baseUrl ? baseUrl : API_BASE_URL;
     }
+    /**
+     * @param headerId (optional) 
+     * @param isProduction (optional) 
+     * @return Success
+     */
+    changeProduction(headerId: number | undefined, isProduction: boolean | undefined , cancelToken?: CancelToken | undefined): Promise<void> {
+        let url_ = this.baseUrl + "/api/services/app/SurveyHeader/ChangeProduction?";
+        if (headerId === null)
+            throw new Error("The parameter 'headerId' cannot be null.");
+        else if (headerId !== undefined)
+            url_ += "headerId=" + encodeURIComponent("" + headerId) + "&";
+        if (isProduction === null)
+            throw new Error("The parameter 'isProduction' cannot be null.");
+        else if (isProduction !== undefined)
+            url_ += "isProduction=" + encodeURIComponent("" + isProduction) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <AxiosRequestConfig>{
+            method: "POST",
+            url: url_,
+            headers: {
+            },
+            cancelToken
+        };
+
+        return this.instance.request(options_).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.processChangeProduction(_response);
+        });
+    }
+
+    protected processChangeProduction(response: AxiosResponse): Promise<void> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            return Promise.resolve<void>(<any>null);
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<void>(<any>null);
+    }
+
 
     /**
      * @return Success
@@ -469,6 +525,60 @@ export class SurveyQuestionServiceProxy {
     constructor(baseUrl?: string, instance?: AxiosInstance) {
         this.instance = instance ? instance : axios.create();
         this.baseUrl = baseUrl ? baseUrl : API_BASE_URL;
+    }
+ /**
+     * @param questionId (optional) 
+     * @return Success
+     */
+    getQuestionById(questionId: number | undefined , cancelToken?: CancelToken | undefined): Promise<GetQuestionDto2> {
+        let url_ = this.baseUrl + "/api/services/app/SurveyQuestion/GetQuestionById?";
+        if (questionId === null)
+            throw new Error("The parameter 'questionId' cannot be null.");
+        else if (questionId !== undefined)
+            url_ += "questionId=" + encodeURIComponent("" + questionId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <AxiosRequestConfig>{
+            method: "GET",
+            url: url_,
+            headers: {
+                "Accept": "text/plain"
+            },
+            cancelToken
+        };
+
+        return this.instance.request(options_).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.processGetQuestionById(_response);
+        });
+    }
+
+    protected processGetQuestionById(response: AxiosResponse): Promise<GetQuestionDto2> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (let k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = GetQuestionDto2.fromJS(resultData200);
+            return result200;
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<GetQuestionDto2>(<any>null);
     }
 
     /**
@@ -1680,7 +1790,7 @@ export class GetSurveyHeaderDto implements IGetSurveyHeaderDto {
     content!: string | undefined;
     startDate!: Date;
     endDate!: Date;
-
+ isProduction!: boolean;
     constructor(data?: IGetSurveyHeaderDto) {
         if (data) {
             for (var property in data) {
@@ -1695,8 +1805,10 @@ export class GetSurveyHeaderDto implements IGetSurveyHeaderDto {
             this.id = _data["id"];
             this.name = _data["name"];
             this.content = _data["content"];
+            this.isProduction = _data["isProduction"];
             this.startDate = _data["startDate"] ? new Date(_data["startDate"].toString()) : <any>undefined;
             this.endDate = _data["endDate"] ? new Date(_data["endDate"].toString()) : <any>undefined;
+         
         }
     }
 
@@ -1714,6 +1826,7 @@ export class GetSurveyHeaderDto implements IGetSurveyHeaderDto {
         data["content"] = this.content;
         data["startDate"] = this.startDate ? this.startDate.toISOString() : <any>undefined;
         data["endDate"] = this.endDate ? this.endDate.toISOString() : <any>undefined;
+        data["isProduction"] = this.isProduction;
         return data; 
     }
 }
@@ -1724,6 +1837,7 @@ export interface IGetSurveyHeaderDto {
     content: string | undefined;
     startDate: Date;
     endDate: Date;
+    isProduction: boolean;
 }
 
 export class GetSurveyHeaderDtoListResultDto implements IGetSurveyHeaderDtoListResultDto {
@@ -2102,7 +2216,7 @@ export class CreateSurveyHeaderInput implements ICreateSurveyHeaderInput {
     content!: string | undefined;
     startDate!: Date;
     endDate!: Date;
-
+    isProduction!: boolean;
     constructor(data?: ICreateSurveyHeaderInput) {
         if (data) {
             for (var property in data) {
@@ -2119,6 +2233,7 @@ export class CreateSurveyHeaderInput implements ICreateSurveyHeaderInput {
             this.content = _data["content"];
             this.startDate = _data["startDate"] ? new Date(_data["startDate"].toString()) : <any>undefined;
             this.endDate = _data["endDate"] ? new Date(_data["endDate"].toString()) : <any>undefined;
+            this.isProduction = _data["isProduction"];
         }
     }
 
@@ -2134,6 +2249,7 @@ export class CreateSurveyHeaderInput implements ICreateSurveyHeaderInput {
         data["id"] = this.id;
         data["name"] = this.name;
         data["content"] = this.content;
+        data["isProduction"] = this.isProduction;
         data["startDate"] = this.startDate ? this.startDate.toISOString() : <any>undefined;
         data["endDate"] = this.endDate ? this.endDate.toISOString() : <any>undefined;
         return data; 
@@ -2146,6 +2262,50 @@ export interface ICreateSurveyHeaderInput {
     content: string | undefined;
     startDate: Date;
     endDate: Date;
+    isProduction: boolean;
+}
+export class GetQuestionDto2 implements IGetQuestionDto {
+    id!: number;
+    headerId!: number;
+    questionTypeId!: number;
+    question!: string | undefined;
+    isRequired!: boolean;
+
+    constructor(data?: IGetQuestionDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.headerId = _data["headerId"];
+            this.questionTypeId = _data["questionTypeId"];
+            this.question = _data["question"];
+            this.isRequired = _data["isRequired"];
+        }
+    }
+
+    static fromJS(data: any): GetQuestionDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetQuestionDto();
+        result.init(data.result);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["headerId"] = this.headerId;
+        data["questionTypeId"] = this.questionTypeId;
+        data["question"] = this.question;
+        data["isRequired"] = this.isRequired;
+        return data; 
+    }
 }
 
 export class GetQuestionDto implements IGetQuestionDto {
@@ -2406,6 +2566,7 @@ export interface IAnswerResultDto {
 
 export class AnswerDto implements IAnswerDto {
     answerId!: number;
+    percent!:number;
     answer!: string | undefined;
     answerResults!: AnswerResultDto[] | undefined;
 
@@ -2421,6 +2582,7 @@ export class AnswerDto implements IAnswerDto {
     init(_data?: any) {
         if (_data) {
             this.answerId = _data["answerId"];
+            this.percent = _data["percent"];
             this.answer = _data["answer"];
             if (Array.isArray(_data["answerResults"])) {
                 this.answerResults = [] as any;
@@ -2440,6 +2602,7 @@ export class AnswerDto implements IAnswerDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["answerId"] = this.answerId;
+        data["percent"] = this.percent;
         data["answer"] = this.answer;
         if (Array.isArray(this.answerResults)) {
             data["answerResults"] = [];
@@ -2452,6 +2615,7 @@ export class AnswerDto implements IAnswerDto {
 
 export interface IAnswerDto {
     answerId: number;
+    percent:number;
     answer: string | undefined;
     answerResults: AnswerResultDto[] | undefined;
 }

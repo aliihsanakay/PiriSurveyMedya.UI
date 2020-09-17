@@ -1,52 +1,58 @@
 <template>
   <div>
     <Card dis-hover>
-      <div class="row" v-for="question in detailList" :key="question.id">
-        <span>{{question.question}}</span>
-        <br />
-        <div class="col-12" v-for="answerItem in question.answers" :key="answerItem.id">
-          <div class="col-12" v-if="question.questionTypeId === 1">
-            <label>
-              <input
-                type="radio"
-                :class="'answer'"
-                :id="'r_'+question.id+'_'+question.questionTypeId+'_'+answerItem.id"
-                :name="question.id"
-                :value="answerItem.content"
-                @click="fillRadiButton($event,question.id,question.questionTypeId,answerItem.id)"
-              />
-              &nbsp;{{answerItem.content}}
-            </label>
-            <br />
+      <div class="container">
+        <div class="row" v-for="question in detailList" :key="question.id">
+          <span>{{question.question}}</span>
+          <br />
+          <div class="col-12" v-for="answerItem in question.answers" :key="answerItem.id">
+            <div class="col-12" v-if="question.questionTypeId === 1">
+              <label>
+                <input
+                  type="radio"
+                  :class="'answer'"
+                  :id="'r_'+question.id+'_'+question.questionTypeId+'_'+answerItem.id"
+                  :name="question.id"
+                  :value="answerItem.content"
+                  @click="fillRadiButton($event,question.id,question.questionTypeId,answerItem.id)"
+                />
+                &nbsp;{{answerItem.content}}
+              </label>
+              <br />
+            </div>
+            <div class="col-12" v-if="question.questionTypeId === 3">
+              <label>
+                <input
+                  type="checkbox"
+                  :class="'answer'"
+                  :id="'c_'+question.id+'_'+question.questionTypeId+'_'+answerItem.id"
+                  :value="answerItem.content"
+                  @click="fillCheckbox($event,question.id,question.questionTypeId,answerItem.id)"
+                  :name="question.id"
+                />
+                &nbsp;{{answerItem.content}}
+              </label>
+              <br />
+            </div>
           </div>
-          <div class="col-12" v-if="question.questionTypeId === 3">
-            <label>
-              <input
-                type="checkbox"
-                :class="'answer'"
-                :id="'c_'+question.id+'_'+question.questionTypeId+'_'+answerItem.id"
-                :value="answerItem.content"
-                @click="fillCheckbox($event,question.id,question.questionTypeId,answerItem.id)"
-                :name="question.id"
-              />
-              &nbsp;{{answerItem.content}}
-            </label>
-            <br />
+          <div class="col-12" v-if="question.questionTypeId === 2">
+            <input
+              type="text"
+              :class="'answer'"
+              :id="'i_'+question.id+'_'+question.questionTypeId"
+              @blur="fillInput($event,question.id,question.questionTypeId)"
+              class="form-control"
+            />
           </div>
         </div>
-        <div class="col-12" v-if="question.questionTypeId === 2">
-          <input
-            type="text"
-            :class="'answer'"
-            :id="'i_'+question.id+'_'+question.questionTypeId"
-            @blur="fillInput($event,question.id,question.questionTypeId)"
-            class="form-control"
-          />
+        <div class="row">
+          <button
+            class="btn btn-success"
+            v-if="detailList.length>0"
+            @click="complateSurvey"
+          >Anketi Tamamla</button>
+          <h2 v-if="detailList.length<=0">Ankete Bağlı Hiç Soru Yok</h2>
         </div>
-      </div>
-      <div class="row">
-        <button class="btn btn-success" v-if="detailList.length>0" @click="complateSurvey">Anketi Tamamla</button>
-        <h2  v-if="detailList.length<=0">Ankete Bağlı Hiç Soru Yok</h2>
       </div>
     </Card>
   </div>
@@ -71,7 +77,7 @@ export default class UserSurveyDetail extends AbpBase {
   surveyResult: CreateSurveyResult[] = [];
   headerId: number;
   startDate: Date = new Date();
-  
+
   private _SurveyHeaderService: SurveyServiceProxy = new SurveyServiceProxy();
   get _surveyService() {
     if (this._SurveyHeaderService == undefined)
@@ -102,7 +108,6 @@ export default class UserSurveyDetail extends AbpBase {
   }
 
   fillRadiButton(item, questionId, questionTypeId, answerId) {
-   
     if (this.surveyResult != undefined) {
       var oldQuestion = this.surveyResult.filter(
         (x) => x.questionId == questionId
@@ -123,7 +128,6 @@ export default class UserSurveyDetail extends AbpBase {
     }
   }
   fillCheckbox(item, questionId, questionTypeId, answerId) {
-  
     if (this.surveyResult != undefined) {
       var oldQuestion = this.surveyResult.filter(
         (x) => x.questionId == questionId && x.answerId == answerId
@@ -146,7 +150,6 @@ export default class UserSurveyDetail extends AbpBase {
     }
   }
   fillInput(item, questionId, questionTypeId) {
-
     if (this.surveyResult != undefined) {
       var oldQuestion = this.surveyResult.filter(
         (x) => x.questionId == questionId
